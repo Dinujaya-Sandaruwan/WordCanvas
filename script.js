@@ -8,6 +8,7 @@ class TextEditor {
     this.alignCenterBtn = document.getElementById("alignCenterBtn");
     this.alignRightBtn = document.getElementById("alignRightBtn");
     this.alignJustifyBtn = document.getElementById("alignJustifyBtn");
+    this.colorPreview = document.getElementById("colorPreview");
 
     this.colorBtn = document.getElementById("colorBtn");
     this.colorPicker = document.getElementById("colorPicker");
@@ -30,6 +31,9 @@ class TextEditor {
     this.setupAutoSave();
 
     this.saveIndicator = document.getElementById("saveIndicator");
+
+    this.currentColor = "#000000";
+    this.savedSelection = null;
   }
 
   initializeEventListeners() {
@@ -66,6 +70,15 @@ class TextEditor {
     this.editor.addEventListener("keydown", (e) => this.handleKeydown(e));
 
     this.clearBtn.addEventListener("click", () => this.clearContent());
+
+    this.editor.addEventListener("mouseup", () => {
+      this.updateButtonStates();
+      this.saveSelection();
+    });
+    this.editor.addEventListener("keyup", () => {
+      this.updateButtonStates();
+      this.saveSelection();
+    });
   }
 
   updateButtonStates() {
@@ -150,9 +163,41 @@ class TextEditor {
     }
   }
 
+  saveSelection() {
+    const selection = window.getSelection();
+    if (selection.rangeCount > 0) {
+      this.savedSelection = selection.getRangeAt(0).cloneRange();
+    }
+  }
+
+  restoreSelection() {
+    if (this.savedSelection) {
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(this.savedSelection);
+      return true;
+    }
+    return false;
+  }
+
   changeColor(color) {
-    document.execCommand("foreColor", false, color);
+    this.currentColor = color;
+    this.colorPreview.style.background = color;
+
+    document.execCommand("styleWithCSS", false, true);
+
+    if (this.savedSelection && !this.savedSelection.collapsed) {
+      this.restoreSelection();
+      document.execCommand("foreColor", false, color);
+      this.saveState();
+      this.saveContent();
+
+      window.getSelection().removeAllRanges();
+      this.savedSelection = null;
+    }
+
     this.editor.focus();
+    document.execCommand("foreColor", false, color);
   }
 
   handleInput() {
