@@ -17,7 +17,10 @@ class TextEditor {
     this.redoBtn = document.getElementById("redoBtn");
     this.undoStack = [];
     this.redoStack = [];
+    this.maxHistorySize = 50;
+    this.lastSaveTime = 0;
     this.isUpdatingHistory = false;
+    this.saveState();
 
     this.wordCount = document.getElementById("wordCount");
     this.updateWordCount();
@@ -208,11 +211,22 @@ class TextEditor {
 
   saveState() {
     const currentState = this.editor.innerHTML;
+
+    if (
+      this.undoStack.length > 0 &&
+      this.undoStack[this.undoStack.length - 1] === currentState
+    ) {
+      return;
+    }
+
     this.undoStack.push(currentState);
-    if (this.undoStack.length > 50) {
+
+    if (this.undoStack.length > this.maxHistorySize) {
       this.undoStack.shift();
     }
+
     this.redoStack = [];
+    this.updateHistoryButtons();
   }
 
   saveStateDelayed() {
@@ -223,13 +237,18 @@ class TextEditor {
   }
 
   undo() {
-    if (this.undoStack.length > 0) {
+    if (this.undoStack.length > 1) {
       const currentState = this.undoStack.pop();
       this.redoStack.push(currentState);
 
+      const previousState = this.undoStack[this.undoStack.length - 1];
       this.isUpdatingHistory = true;
-      this.editor.innerHTML = this.undoStack[this.undoStack.length - 1];
+      this.editor.innerHTML = previousState;
       this.isUpdatingHistory = false;
+
+      this.updateHistoryButtons();
+      this.updateWordCount();
+      this.editor.focus();
     }
   }
 
@@ -241,7 +260,16 @@ class TextEditor {
       this.isUpdatingHistory = true;
       this.editor.innerHTML = nextState;
       this.isUpdatingHistory = false;
+
+      this.updateHistoryButtons();
+      this.updateWordCount();
+      this.editor.focus();
     }
+  }
+
+  updateHistoryButtons() {
+    this.undoBtn.style.opacity = this.undoStack.length > 1 ? "1" : "0.5";
+    this.redoBtn.style.opacity = this.redoStack.length > 0 ? "1" : "0.5";
   }
 
   handleInput() {
