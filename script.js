@@ -50,6 +50,8 @@ class TextEditor {
     this.undoBtn.addEventListener("click", () => this.undo());
     this.redoBtn.addEventListener("click", () => this.redo());
     this.editor.addEventListener("input", () => this.handleInput());
+
+    this.editor.addEventListener("keydown", (e) => this.handleKeydown(e));
   }
 
   updateButtonStates() {
@@ -140,6 +142,35 @@ class TextEditor {
     const characters = text.length;
 
     this.wordCount.textContent = `Words: ${words} | Characters: ${characters}`;
+  }
+
+  handleKeydown(e) {
+    if (e.ctrlKey || e.metaKey) {
+      switch (e.key.toLowerCase()) {
+        case "b":
+          e.preventDefault();
+          this.toggleFormat("bold");
+          break;
+        case "i":
+          e.preventDefault();
+          this.toggleFormat("italic");
+          break;
+        case "u":
+          e.preventDefault();
+          this.toggleFormat("underline");
+          break;
+        case "z":
+          if (!e.shiftKey) {
+            e.preventDefault();
+            this.undo();
+          }
+          break;
+        case "y":
+          e.preventDefault();
+          this.redo();
+          break;
+      }
+    }
   }
 }
 
