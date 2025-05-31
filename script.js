@@ -15,6 +15,7 @@ class TextEditor {
     this.redoBtn = document.getElementById("redoBtn");
     this.undoStack = [];
     this.redoStack = [];
+    this.isUpdatingHistory = false;
 
     this.initializeEventListeners();
   }
@@ -89,23 +90,26 @@ class TextEditor {
   }
 
   handleInput() {
-    this.saveState();
+    if (!this.isUpdatingHistory) {
+      this.saveStateDelayed();
+    }
   }
 
-  saveState() {
-    const currentState = this.editor.innerHTML;
-    this.undoStack.push(currentState);
-    if (this.undoStack.length > 50) {
-      this.undoStack.shift();
-    }
-    this.redoStack = [];
+  saveStateDelayed() {
+    clearTimeout(this.saveTimeout);
+    this.saveTimeout = setTimeout(() => {
+      this.saveState();
+    }, 500);
   }
 
   undo() {
     if (this.undoStack.length > 1) {
       const currentState = this.undoStack.pop();
       this.redoStack.push(currentState);
+
+      this.isUpdatingHistory = true;
       this.editor.innerHTML = this.undoStack[this.undoStack.length - 1];
+      this.isUpdatingHistory = false;
     }
   }
 
@@ -113,7 +117,10 @@ class TextEditor {
     if (this.redoStack.length > 0) {
       const nextState = this.redoStack.pop();
       this.undoStack.push(nextState);
+
+      this.isUpdatingHistory = true;
       this.editor.innerHTML = nextState;
+      this.isUpdatingHistory = false;
     }
   }
 }
