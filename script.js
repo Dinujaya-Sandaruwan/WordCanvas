@@ -8,6 +8,9 @@ class TextEditor {
     this.alignCenterBtn = document.getElementById("alignCenterBtn");
     this.alignRightBtn = document.getElementById("alignRightBtn");
 
+    this.colorBtn = document.getElementById("colorBtn");
+    this.colorPicker = document.getElementById("colorPicker");
+
     this.initializeEventListeners();
   }
 
@@ -29,6 +32,11 @@ class TextEditor {
 
     this.editor.addEventListener("mouseup", () => this.updateButtonStates());
     this.editor.addEventListener("keyup", () => this.updateButtonStates());
+
+    this.colorBtn.addEventListener("click", () => this.colorPicker.click());
+    this.colorPicker.addEventListener("change", (e) =>
+      this.changeColor(e.target.value)
+    );
   }
 
   updateButtonStates() {
@@ -63,6 +71,11 @@ class TextEditor {
         break;
     }
     document.execCommand(command, false, null);
+    this.editor.focus();
+  }
+
+  changeColor(color) {
+    document.execCommand("foreColor", false, color);
     this.editor.focus();
   }
 }
