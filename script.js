@@ -17,6 +17,9 @@ class TextEditor {
     this.redoStack = [];
     this.isUpdatingHistory = false;
 
+    this.wordCount = document.getElementById("wordCount");
+    this.updateWordCount();
+
     this.initializeEventListeners();
   }
 
@@ -122,6 +125,21 @@ class TextEditor {
       this.editor.innerHTML = nextState;
       this.isUpdatingHistory = false;
     }
+  }
+
+  handleInput() {
+    if (!this.isUpdatingHistory) {
+      this.saveStateDelayed();
+    }
+    this.updateWordCount();
+  }
+
+  updateWordCount() {
+    const text = this.editor.innerText || this.editor.textContent || "";
+    const words = text.trim() === "" ? 0 : text.trim().split(/\s+/).length;
+    const characters = text.length;
+
+    this.wordCount.textContent = `Words: ${words} | Characters: ${characters}`;
   }
 }
 
