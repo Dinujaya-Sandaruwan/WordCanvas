@@ -7,6 +7,7 @@ class TextEditor {
     this.alignLeftBtn = document.getElementById("alignLeftBtn");
     this.alignCenterBtn = document.getElementById("alignCenterBtn");
     this.alignRightBtn = document.getElementById("alignRightBtn");
+    this.alignJustifyBtn = document.getElementById("alignJustifyBtn");
 
     this.colorBtn = document.getElementById("colorBtn");
     this.colorPicker = document.getElementById("colorPicker");
@@ -39,6 +40,9 @@ class TextEditor {
     );
     this.alignRightBtn.addEventListener("click", () =>
       this.setAlignment("right")
+    );
+    this.alignJustifyBtn.addEventListener("click", () =>
+      this.setAlignment("justify")
     );
 
     this.editor.addEventListener("mouseup", () => this.updateButtonStates());
@@ -88,9 +92,38 @@ class TextEditor {
       case "right":
         command = "justifyRight";
         break;
+      case "justify":
+        command = "justifyFull";
+        break;
     }
+
     document.execCommand(command, false, null);
+    this.updateAlignmentButtons(alignment);
     this.editor.focus();
+  }
+
+  updateAlignmentButtons(activeAlignment) {
+    [
+      this.alignLeftBtn,
+      this.alignCenterBtn,
+      this.alignRightBtn,
+      this.alignJustifyBtn,
+    ].forEach((btn) => btn.classList.remove("active"));
+
+    switch (activeAlignment) {
+      case "left":
+        this.alignLeftBtn.classList.add("active");
+        break;
+      case "center":
+        this.alignCenterBtn.classList.add("active");
+        break;
+      case "right":
+        this.alignRightBtn.classList.add("active");
+        break;
+      case "justify":
+        this.alignJustifyBtn.classList.add("active");
+        break;
+    }
   }
 
   changeColor(color) {
