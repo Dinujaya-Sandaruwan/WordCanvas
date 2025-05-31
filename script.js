@@ -24,6 +24,10 @@ class TextEditor {
     this.clearBtn = document.getElementById("clearBtn");
 
     this.initializeEventListeners();
+
+    this.saveKey = "wordCanvas_content";
+    this.loadContent();
+    this.setupAutoSave();
   }
 
   initializeEventListeners() {
@@ -247,6 +251,49 @@ class TextEditor {
       this.updateWordCount();
       this.saveState();
       this.editor.focus();
+    }
+  }
+
+  loadContent() {
+    try {
+      const savedContent = localStorage.getItem(this.saveKey);
+      if (savedContent && savedContent.trim() !== "") {
+        this.editor.innerHTML = savedContent;
+        console.log("Content loaded from localStorage");
+      }
+    } catch (error) {
+      console.warn("Could not load from localStorage:", error);
+    }
+  }
+
+  saveContent() {
+    try {
+      const content = this.editor.innerHTML;
+      localStorage.setItem(this.saveKey, content);
+      console.log("Content saved to localStorage");
+    } catch (error) {
+      console.error("Could not save to localStorage:", error);
+    }
+  }
+
+  setupAutoSave() {
+    this.editor.addEventListener("blur", () => {
+      if (this.hasUnsavedChanges()) {
+        this.saveContent();
+      }
+    });
+
+    window.addEventListener("beforeunload", () => this.saveContent());
+    window.addEventListener("unload", () => this.saveContent());
+  }
+
+  hasUnsavedChanges() {
+    try {
+      const currentContent = this.editor.innerHTML;
+      const savedContent = localStorage.getItem(this.saveKey) || "";
+      return currentContent !== savedContent;
+    } catch (error) {
+      return false;
     }
   }
 }
