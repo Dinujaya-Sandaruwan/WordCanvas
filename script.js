@@ -7,6 +7,7 @@ class TextEditor {
     this.alignLeftBtn = document.getElementById("alignLeftBtn");
     this.alignCenterBtn = document.getElementById("alignCenterBtn");
     this.alignRightBtn = document.getElementById("alignRightBtn");
+    this.alignJustifyBtn = document.getElementById("alignJustifyBtn");
 
     this.colorBtn = document.getElementById("colorBtn");
     this.colorPicker = document.getElementById("colorPicker");
@@ -16,6 +17,11 @@ class TextEditor {
     this.undoStack = [];
     this.redoStack = [];
     this.isUpdatingHistory = false;
+
+    this.wordCount = document.getElementById("wordCount");
+    this.updateWordCount();
+
+    this.clearBtn = document.getElementById("clearBtn");
 
     this.initializeEventListeners();
   }
@@ -35,6 +41,9 @@ class TextEditor {
     this.alignRightBtn.addEventListener("click", () =>
       this.setAlignment("right")
     );
+    this.alignJustifyBtn.addEventListener("click", () =>
+      this.setAlignment("justify")
+    );
 
     this.editor.addEventListener("mouseup", () => this.updateButtonStates());
     this.editor.addEventListener("keyup", () => this.updateButtonStates());
@@ -47,18 +56,40 @@ class TextEditor {
     this.undoBtn.addEventListener("click", () => this.undo());
     this.redoBtn.addEventListener("click", () => this.redo());
     this.editor.addEventListener("input", () => this.handleInput());
+
+    this.editor.addEventListener("keydown", (e) => this.handleKeydown(e));
+
+    this.clearBtn.addEventListener("click", () => this.clearContent());
   }
 
   updateButtonStates() {
     this.boldBtn.classList.toggle("active", document.queryCommandState("bold"));
-    this.italicBtn.classList.toggle(
-      "active",
-      document.queryCommandState("italic")
-    );
     this.underlineBtn.classList.toggle(
       "active",
       document.queryCommandState("underline")
     );
+    this.italicBtn.classList.toggle(
+      "active",
+      document.queryCommandState("italic")
+    );
+
+    const isLeft = document.queryCommandState("justifyLeft");
+    const isCenter = document.queryCommandState("justifyCenter");
+    const isRight = document.queryCommandState("justifyRight");
+    const isJustify = document.queryCommandState("justifyFull");
+
+    [
+      this.alignLeftBtn,
+      this.alignCenterBtn,
+      this.alignRightBtn,
+      this.alignJustifyBtn,
+    ].forEach((btn) => btn.classList.remove("active"));
+
+    if (isLeft) this.alignLeftBtn.classList.add("active");
+    else if (isCenter) this.alignCenterBtn.classList.add("active");
+    else if (isRight) this.alignRightBtn.classList.add("active");
+    else if (isJustify) this.alignJustifyBtn.classList.add("active");
+    else this.alignLeftBtn.classList.add("active");
   }
 
   toggleFormat(command) {
@@ -79,9 +110,38 @@ class TextEditor {
       case "right":
         command = "justifyRight";
         break;
+      case "justify":
+        command = "justifyFull";
+        break;
     }
+
     document.execCommand(command, false, null);
+    this.updateAlignmentButtons(alignment);
     this.editor.focus();
+  }
+
+  updateAlignmentButtons(activeAlignment) {
+    [
+      this.alignLeftBtn,
+      this.alignCenterBtn,
+      this.alignRightBtn,
+      this.alignJustifyBtn,
+    ].forEach((btn) => btn.classList.remove("active"));
+
+    switch (activeAlignment) {
+      case "left":
+        this.alignLeftBtn.classList.add("active");
+        break;
+      case "center":
+        this.alignCenterBtn.classList.add("active");
+        break;
+      case "right":
+        this.alignRightBtn.classList.add("active");
+        break;
+      case "justify":
+        this.alignJustifyBtn.classList.add("active");
+        break;
+    }
   }
 
   changeColor(color) {
@@ -95,6 +155,15 @@ class TextEditor {
     }
   }
 
+  saveState() {
+    const currentState = this.editor.innerHTML;
+    this.undoStack.push(currentState);
+    if (this.undoStack.length > 50) {
+      this.undoStack.shift();
+    }
+    this.redoStack = [];
+  }
+
   saveStateDelayed() {
     clearTimeout(this.saveTimeout);
     this.saveTimeout = setTimeout(() => {
@@ -103,7 +172,7 @@ class TextEditor {
   }
 
   undo() {
-    if (this.undoStack.length > 1) {
+    if (this.undoStack.length > 0) {
       const currentState = this.undoStack.pop();
       this.redoStack.push(currentState);
 
@@ -121,6 +190,63 @@ class TextEditor {
       this.isUpdatingHistory = true;
       this.editor.innerHTML = nextState;
       this.isUpdatingHistory = false;
+    }
+  }
+
+  handleInput() {
+    if (!this.isUpdatingHistory) {
+      this.saveStateDelayed();
+    }
+    this.updateWordCount();
+  }
+
+  updateWordCount() {
+    const text = this.editor.innerText || this.editor.textContent || "";
+    const words = text.trim() === "" ? 0 : text.trim().split(/\s+/).length;
+    const characters = text.length;
+
+    this.wordCount.textContent = `Words: ${words} | Characters: ${characters}`;
+  }
+
+  handleKeydown(e) {
+    if (e.ctrlKey || e.metaKey) {
+      switch (e.key.toLowerCase()) {
+        case "b":
+          e.preventDefault();
+          this.toggleFormat("bold");
+          break;
+        case "i":
+          e.preventDefault();
+          this.toggleFormat("italic");
+          break;
+        case "u":
+          e.preventDefault();
+          this.toggleFormat("underline");
+          break;
+        case "z":
+          if (!e.shiftKey) {
+            e.preventDefault();
+            this.undo();
+          }
+          break;
+        case "y":
+          e.preventDefault();
+          this.redo();
+          break;
+      }
+    }
+  }
+
+  clearContent() {
+    if (
+      confirm(
+        "Are you sure you want to clear all content? This action cannot be undone."
+      )
+    ) {
+      this.editor.innerHTML = "<p></p>";
+      this.updateWordCount();
+      this.saveState();
+      this.editor.focus();
     }
   }
 }

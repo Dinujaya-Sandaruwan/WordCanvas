@@ -12,50 +12,70 @@
   </head>
   <body>
     <div class="container">
-      <h1>Word Canvas</h1>
+      <div class="header">
+        <h1>Word Canvas</h1>
+        <p>A simple canvas for writing and formatting quick notes</p>
+      </div>
       <div class="toolbar">
         <div class="btn-group">
-          <button class="btn" id="boldBtn"><i class="fas fa-bold"></i></button>
-          <button class="btn" id="italicBtn">
+          <button class="btn" id="boldBtn" title="Bold (Ctrl+B)">
+            <i class="fas fa-bold"></i>
+          </button>
+          <button class="btn" id="italicBtn" title="Italic (Ctrl+I)">
             <i class="fas fa-italic"></i>
           </button>
-          <button class="btn" id="underlineBtn">
+          <button class="btn" id="underlineBtn" title="Underline (Ctrl+U)">
             <i class="fas fa-underline"></i>
           </button>
         </div>
         <div class="btn-group">
-          <button class="btn" id="alignLeftBtn">
+          <button class="btn" id="alignLeftBtn" title="Align Left">
             <i class="fas fa-align-left"></i>
           </button>
-          <button class="btn" id="alignCenterBtn">
+          <button class="btn" id="alignCenterBtn" title="Align Center">
             <i class="fas fa-align-center"></i>
           </button>
-          <button class="btn" id="alignRightBtn">
+          <button class="btn" id="alignRightBtn" title="Align Right">
             <i class="fas fa-align-right"></i>
           </button>
-        </div>
-        <div class="btn-group">
-          <button class="btn" id="colorBtn">
-            <i class="fas fa-palette"></i>
+          <button class="btn" id="alignJustifyBtn" title="Justify">
+            <i class="fas fa-align-justify"></i>
           </button>
-          <input
-            type="color"
-            id="colorPicker"
-            style="display: none"
-            value="#000000"
-          />
         </div>
         <div class="btn-group">
-          <button class="btn" id="undoBtn">
+          <div class="color-picker-wrapper">
+            <button class="color-btn" id="colorBtn" title="Text Color">
+              <i class="fas fa-palette color-icon"></i>
+              <div class="color-preview" id="colorPreview"></div>
+            </button>
+            <input
+              type="color"
+              class="color-input"
+              id="colorPicker"
+              title="Text Color"
+              value="#000000"
+            />
+          </div>
+        </div>
+        <div class="btn-group">
+          <button class="btn" id="undoBtn" title="Undo (Ctrl+Z)">
             <i class="fas fa-undo"></i>
           </button>
-          <button class="btn" id="redoBtn">
+          <button class="btn" id="redoBtn" title="Redo (Ctrl+Y)">
             <i class="fas fa-redo"></i>
+          </button>
+        </div>
+        <div class="btn-group">
+          <button class="btn" id="clearBtn" title="Clear All Content">
+            <i class="fas fa-trash"></i>
           </button>
         </div>
       </div>
       <div class="editor" id="editor" contenteditable="true">
         <p></p>
+      </div>
+      <div class="status-bar">
+        <div class="word-count" id="wordCount">Words: 0 | Characters: 0</div>
       </div>
     </div>
     <script src="script.js"></script>
