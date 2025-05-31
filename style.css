@@ -152,9 +152,29 @@ body {
 .status-bar {
   background: #f8f9fa;
   border-top: 1px solid #dee2e6;
-  padding: 10px 20px;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   font-size: 14px;
   color: #6c757d;
+}
+
+.auto-save-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.save-indicator {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  color: #28a745;
+  font-weight: 500;
+}
+
+.save-indicator.show {
+  opacity: 1;
 }
 
 .word-count {

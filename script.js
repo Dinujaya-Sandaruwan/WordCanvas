@@ -28,6 +28,8 @@ class TextEditor {
     this.saveKey = "wordCanvas_content";
     this.loadContent();
     this.setupAutoSave();
+
+    this.saveIndicator = document.getElementById("saveIndicator");
   }
 
   initializeEventListeners() {
@@ -295,6 +297,24 @@ class TextEditor {
     } catch (error) {
       return false;
     }
+  }
+
+  saveContent() {
+    try {
+      const content = this.editor.innerHTML;
+      localStorage.setItem(this.saveKey, content);
+      this.showSaveIndicator();
+      console.log("Content saved to localStorage");
+    } catch (error) {
+      console.error("Could not save to localStorage:", error);
+    }
+  }
+
+  showSaveIndicator() {
+    this.saveIndicator.classList.add("show");
+    setTimeout(() => {
+      this.saveIndicator.classList.remove("show");
+    }, 2000);
   }
 }
 
