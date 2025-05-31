@@ -100,6 +100,15 @@ class TextEditor {
     }
   }
 
+  saveState() {
+    const currentState = this.editor.innerHTML;
+    this.undoStack.push(currentState);
+    if (this.undoStack.length > 50) {
+      this.undoStack.shift();
+    }
+    this.redoStack = [];
+  }
+
   saveStateDelayed() {
     clearTimeout(this.saveTimeout);
     this.saveTimeout = setTimeout(() => {
@@ -108,7 +117,7 @@ class TextEditor {
   }
 
   undo() {
-    if (this.undoStack.length > 1) {
+    if (this.undoStack.length > 0) {
       const currentState = this.undoStack.pop();
       this.redoStack.push(currentState);
 
