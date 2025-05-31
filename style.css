@@ -26,3 +26,27 @@ body {
   border-radius: 4px;
   outline: none;
 }
+
+.toolbar {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  background: #f8f9fa;
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn:hover {
+  background: #e9ecef;
+}
+
+.btn.active {
+  background: #007bff;
+  color: white;
+}
