@@ -11,6 +11,12 @@ class TextEditor {
     this.colorBtn = document.getElementById("colorBtn");
     this.colorPicker = document.getElementById("colorPicker");
 
+    this.undoBtn = document.getElementById("undoBtn");
+    this.redoBtn = document.getElementById("redoBtn");
+    this.undoStack = [];
+    this.redoStack = [];
+    this.isUpdatingHistory = false;
+
     this.initializeEventListeners();
   }
 
@@ -37,6 +43,10 @@ class TextEditor {
     this.colorPicker.addEventListener("change", (e) =>
       this.changeColor(e.target.value)
     );
+
+    this.undoBtn.addEventListener("click", () => this.undo());
+    this.redoBtn.addEventListener("click", () => this.redo());
+    this.editor.addEventListener("input", () => this.handleInput());
   }
 
   updateButtonStates() {
@@ -77,6 +87,41 @@ class TextEditor {
   changeColor(color) {
     document.execCommand("foreColor", false, color);
     this.editor.focus();
+  }
+
+  handleInput() {
+    if (!this.isUpdatingHistory) {
+      this.saveStateDelayed();
+    }
+  }
+
+  saveStateDelayed() {
+    clearTimeout(this.saveTimeout);
+    this.saveTimeout = setTimeout(() => {
+      this.saveState();
+    }, 500);
+  }
+
+  undo() {
+    if (this.undoStack.length > 1) {
+      const currentState = this.undoStack.pop();
+      this.redoStack.push(currentState);
+
+      this.isUpdatingHistory = true;
+      this.editor.innerHTML = this.undoStack[this.undoStack.length - 1];
+      this.isUpdatingHistory = false;
+    }
+  }
+
+  redo() {
+    if (this.redoStack.length > 0) {
+      const nextState = this.redoStack.pop();
+      this.undoStack.push(nextState);
+
+      this.isUpdatingHistory = true;
+      this.editor.innerHTML = nextState;
+      this.isUpdatingHistory = false;
+    }
   }
 }
 
