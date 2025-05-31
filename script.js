@@ -14,10 +14,26 @@ class TextEditor {
     this.underlineBtn.addEventListener("click", () =>
       this.toggleFormat("underline")
     );
+
+    this.editor.addEventListener("mouseup", () => this.updateButtonStates());
+    this.editor.addEventListener("keyup", () => this.updateButtonStates());
+  }
+
+  updateButtonStates() {
+    this.boldBtn.classList.toggle("active", document.queryCommandState("bold"));
+    this.italicBtn.classList.toggle(
+      "active",
+      document.queryCommandState("italic")
+    );
+    this.underlineBtn.classList.toggle(
+      "active",
+      document.queryCommandState("underline")
+    );
   }
 
   toggleFormat(command) {
     document.execCommand(command, false, null);
+    this.updateButtonStates();
     this.editor.focus();
   }
 }
