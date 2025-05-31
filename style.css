@@ -5,26 +5,43 @@
 }
 
 body {
-  font-family: Arial, sans-serif;
-  background: #f5f5f5;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  min-height: 100vh;
   padding: 20px;
 }
 
 .container {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
-  background: white;
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 1);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.container > h1 {
+  margin-bottom: 15px;
 }
 
 .editor {
-  min-height: 300px;
-  border: 1px solid #ddd;
-  padding: 15px;
-  border-radius: 4px;
+  min-height: 400px;
+  border: 2px solid #dee2e6;
+  border-radius: 8px;
+  padding: 25px;
+  font-size: 16px;
+  line-height: 1.6;
   outline: none;
+  transition: all 0.3s ease;
+  background: #ffffff;
+  color: #212529;
+}
+
+.editor:focus {
+  border-color: #495057;
+  box-shadow: 0 0 12px rgba(73, 80, 87, 0.15);
 }
 
 .toolbar {
