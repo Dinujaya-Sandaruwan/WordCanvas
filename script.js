@@ -64,14 +64,32 @@ class TextEditor {
 
   updateButtonStates() {
     this.boldBtn.classList.toggle("active", document.queryCommandState("bold"));
-    this.italicBtn.classList.toggle(
-      "active",
-      document.queryCommandState("italic")
-    );
     this.underlineBtn.classList.toggle(
       "active",
       document.queryCommandState("underline")
     );
+    this.italicBtn.classList.toggle(
+      "active",
+      document.queryCommandState("italic")
+    );
+
+    const isLeft = document.queryCommandState("justifyLeft");
+    const isCenter = document.queryCommandState("justifyCenter");
+    const isRight = document.queryCommandState("justifyRight");
+    const isJustify = document.queryCommandState("justifyFull");
+
+    [
+      this.alignLeftBtn,
+      this.alignCenterBtn,
+      this.alignRightBtn,
+      this.alignJustifyBtn,
+    ].forEach((btn) => btn.classList.remove("active"));
+
+    if (isLeft) this.alignLeftBtn.classList.add("active");
+    else if (isCenter) this.alignCenterBtn.classList.add("active");
+    else if (isRight) this.alignRightBtn.classList.add("active");
+    else if (isJustify) this.alignJustifyBtn.classList.add("active");
+    else this.alignLeftBtn.classList.add("active");
   }
 
   toggleFormat(command) {
