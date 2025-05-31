@@ -3,13 +3,30 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
     <title>Word Canvas</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div class="container">
       <h1>Word Canvas</h1>
-      <div class="editor" contenteditable="true">Start typing here...</div>
+      <div class="toolbar">
+        <button class="btn" id="boldBtn">
+          <i class="fas fa-bold"></i>
+        </button>
+        <button class="btn" id="italicBtn">
+          <i class="fas fa-italic"></i>
+        </button>
+        <button class="btn" id="underlineBtn">
+          <i class="fas fa-underline"></i>
+        </button>
+      </div>
+      <div class="editor" id="editor" contenteditable="true">
+        Start typing here...
+      </div>
     </div>
   </body>
 </html>
