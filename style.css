@@ -50,3 +50,12 @@ body {
   background: #007bff;
   color: white;
 }
+
+.btn-group {
+  display: flex;
+  gap: 5px;
+  background: #f8f9fa;
+  padding: 5px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
