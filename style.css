@@ -22,8 +22,23 @@ body {
   overflow: hidden;
 }
 
-.container > h1 {
-  margin-bottom: 15px;
+.header {
+  background: linear-gradient(135deg, #495057 0%, #343a40 100%);
+  padding: 20px 30px;
+  color: white;
+  text-align: center;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  font-weight: 300;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.header p {
+  font-size: 1.1rem;
+  opacity: 0.9;
 }
 
 .editor {
