@@ -20,6 +20,8 @@ class TextEditor {
     this.wordCount = document.getElementById("wordCount");
     this.updateWordCount();
 
+    this.clearBtn = document.getElementById("clearBtn");
+
     this.initializeEventListeners();
   }
 
@@ -52,6 +54,8 @@ class TextEditor {
     this.editor.addEventListener("input", () => this.handleInput());
 
     this.editor.addEventListener("keydown", (e) => this.handleKeydown(e));
+
+    this.clearBtn.addEventListener("click", () => this.clearContent());
   }
 
   updateButtonStates() {
@@ -179,6 +183,19 @@ class TextEditor {
           this.redo();
           break;
       }
+    }
+  }
+
+  clearContent() {
+    if (
+      confirm(
+        "Are you sure you want to clear all content? This action cannot be undone."
+      )
+    ) {
+      this.editor.innerHTML = "<p></p>";
+      this.updateWordCount();
+      this.saveState();
+      this.editor.focus();
     }
   }
 }
