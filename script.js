@@ -312,6 +312,10 @@ class TextEditor {
           e.preventDefault();
           this.redo();
           break;
+        case "s":
+          e.preventDefault();
+          this.saveContent();
+          break;
       }
     }
   }
