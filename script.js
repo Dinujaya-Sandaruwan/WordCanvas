@@ -327,8 +327,9 @@ class TextEditor {
       )
     ) {
       this.editor.innerHTML = "<p></p>";
-      this.updateWordCount();
+      this.saveContent();
       this.saveState();
+      this.updateWordCount();
       this.editor.focus();
     }
   }
