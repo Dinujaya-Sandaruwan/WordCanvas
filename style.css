@@ -215,3 +215,68 @@ body {
 .editor * {
   transition: all 0.2s ease;
 }
+
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+
+  .header h1 {
+    font-size: 2rem;
+  }
+
+  .toolbar {
+    padding: 15px 20px;
+    justify-content: center;
+  }
+
+  .btn-group {
+    flex-wrap: wrap;
+  }
+
+  .editor-container {
+    padding: 20px;
+  }
+
+  .editor {
+    min-height: 300px;
+    padding: 20px;
+    font-size: 14px;
+  }
+
+  .status-bar {
+    padding: 12px 20px;
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .auto-save-status {
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .toolbar {
+    padding: 10px 15px;
+    justify-content: center;
+  }
+  .btn,
+  .color-btn {
+    padding: 6px 8px;
+    border-radius: 3px;
+  }
+
+  .btn > i {
+  }
+
+  .color-btn > i {
+    font-size: 12px;
+  }
+
+  .toolbar {
+    padding: 7.5px 10px;
+    gap: 7px;
+  }
+}
