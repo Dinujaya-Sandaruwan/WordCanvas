@@ -1,3 +1,46 @@
+:root {
+  /* Primary Colors */
+  --primary-dark: #495057;
+  --primary-darker: #343a40;
+  --secondary-gray: #6c757d;
+  --secondary-darker: #5a6268;
+
+  /* Background Colors */
+  --bg-gradient-start: #f8f9fa;
+  --bg-gradient-end: #e9ecef;
+  --bg-white: #ffffff;
+  --bg-light: #f8f9fa;
+
+  /* Text Colors */
+  --text-dark: #212529;
+  --text-muted: #6c757d;
+  --text-white: #ffffff;
+  --text-success: #28a745;
+
+  /* Border Colors */
+  --border-light: #dee2e6;
+  --border-subtle: rgba(0, 0, 0, 0.05);
+
+  /* Glass Effects */
+  --glass-light: rgba(255, 255, 255, 0.15);
+  --glass-medium: rgba(255, 255, 255, 0.25);
+  --glass-strong: rgba(255, 255, 255, 0.467);
+
+  /* Shadow Colors */
+  --shadow-light: rgba(0, 0, 0, 0.08);
+  --shadow-focus: rgba(73, 80, 87, 0.15);
+  --shadow-inset: rgba(0, 0, 0, 0.2);
+  --shadow-text: rgba(0, 0, 0, 0.2);
+
+  /* Scrollbar Colors */
+  --scrollbar-track: #f1f1f1;
+  --scrollbar-thumb: #6c757d;
+  --scrollbar-thumb-hover: #495057;
+
+  /* Default Color Picker */
+  --color-picker-default: #000000;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -6,7 +49,11 @@
 
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  background: linear-gradient(
+    135deg,
+    var(--bg-gradient-start) 0%,
+    var(--bg-gradient-end) 100%
+  );
   min-height: 100vh;
   padding: 20px;
 }
@@ -14,18 +61,22 @@ body {
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  background: rgba(255, 255, 255, 1);
+  background: var(--bg-white);
   border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 8px 32px var(--shadow-light);
+  border: 1px solid var(--border-subtle);
   overflow: hidden;
   animation: slideUp 0.8s ease-out;
 }
 
 .header {
-  background: linear-gradient(135deg, #495057 0%, #343a40 100%);
+  background: linear-gradient(
+    135deg,
+    var(--primary-dark) 0%,
+    var(--primary-darker) 100%
+  );
   padding: 20px 30px;
-  color: white;
+  color: var(--text-white);
   text-align: center;
 }
 
@@ -33,7 +84,7 @@ body {
   font-size: 2.5rem;
   font-weight: 300;
   margin-bottom: 10px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 2px 4px var(--shadow-text);
 }
 
 .header p {
@@ -43,20 +94,20 @@ body {
 
 .editor {
   min-height: 400px;
-  border: 2px solid #dee2e6;
+  border: 2px solid var(--border-light);
   border-radius: 8px;
   padding: 25px;
   font-size: 16px;
   line-height: 1.6;
   outline: none;
   transition: all 0.3s ease;
-  background: #ffffff;
-  color: #212529;
+  background: var(--bg-white);
+  color: var(--text-dark);
 }
 
 .editor:focus {
-  border-color: #495057;
-  box-shadow: 0 0 12px rgba(73, 80, 87, 0.15);
+  border-color: var(--primary-dark);
+  box-shadow: 0 0 12px var(--shadow-focus);
 }
 
 .editor u,
@@ -71,11 +122,15 @@ body {
 
 .editor-container {
   padding: 30px;
-  background: white;
+  background: var(--bg-white);
 }
 
 .toolbar {
-  background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+  background: linear-gradient(
+    135deg,
+    var(--secondary-gray) 0%,
+    var(--secondary-darker) 100%
+  );
   padding: 20px 30px;
   display: flex;
   flex-wrap: wrap;
@@ -85,11 +140,11 @@ body {
 }
 
 .btn {
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--glass-light);
   border: none;
   padding: 12px 16px;
   border-radius: 6px;
-  color: white;
+  color: var(--text-white);
   cursor: pointer;
   font-size: 16px;
   transition: all 0.3s ease;
@@ -101,19 +156,19 @@ body {
 }
 
 .btn:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: var(--glass-medium);
   transform: translateY(-1px);
 }
 
 .btn.active {
-  background: rgba(255, 255, 255, 0.467);
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+  background: var(--glass-strong);
+  box-shadow: inset 0 1px 3px var(--shadow-inset);
 }
 
 .btn-group {
   display: flex;
   gap: 8px;
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--glass-light);
   padding: 8px;
   border-radius: 8px;
   backdrop-filter: blur(10px);
@@ -133,11 +188,11 @@ body {
 }
 
 .color-btn {
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--glass-light);
   border: none;
   padding: 12px 16px;
   border-radius: 6px;
-  color: white;
+  color: var(--text-white);
   cursor: pointer;
   font-size: 16px;
   transition: all 0.3s ease;
@@ -155,7 +210,7 @@ body {
   transform: translateX(-50%);
   width: 100%;
   height: 100%;
-  background: #000000;
+  background: var(--color-picker-default);
   border-radius: 5px;
   z-index: 4;
 }
@@ -165,14 +220,14 @@ body {
 }
 
 .status-bar {
-  background: #f8f9fa;
-  border-top: 1px solid #dee2e6;
+  background: var(--bg-light);
+  border-top: 1px solid var(--border-light);
   padding: 15px 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 14px;
-  color: #6c757d;
+  color: var(--text-muted);
 }
 
 .auto-save-status {
@@ -184,7 +239,7 @@ body {
 .save-indicator {
   opacity: 0;
   transition: opacity 0.3s ease;
-  color: #28a745;
+  color: var(--text-success);
   font-weight: 500;
 }
 
@@ -279,6 +334,7 @@ body {
   }
 
   .btn > i {
+    font-size: 12px;
   }
 
   .color-btn > i {
@@ -296,15 +352,15 @@ body {
 }
 
 .editor::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: var(--scrollbar-track);
   border-radius: 10px;
 }
 
 .editor::-webkit-scrollbar-thumb {
-  background: #6c757d;
+  background: var(--scrollbar-thumb);
   border-radius: 4px;
 }
 
 .editor::-webkit-scrollbar-thumb:hover {
-  background: #495057;
+  background: var(--scrollbar-thumb-hover);
 }
