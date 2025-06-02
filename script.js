@@ -339,7 +339,7 @@ class TextEditor {
       const savedContent = localStorage.getItem(this.saveKey);
       if (savedContent && savedContent.trim() !== "") {
         this.editor.innerHTML = savedContent;
-        console.log("Content loaded from localStorage");
+        // console.log("Content loaded from localStorage");
       }
     } catch (error) {
       console.warn("Could not load from localStorage:", error);
@@ -350,7 +350,7 @@ class TextEditor {
     try {
       const content = this.editor.innerHTML;
       localStorage.setItem(this.saveKey, content);
-      console.log("Content saved to localStorage");
+      //   console.log("Content saved to localStorage");
     } catch (error) {
       console.error("Could not save to localStorage:", error);
     }
@@ -383,7 +383,7 @@ class TextEditor {
       localStorage.setItem(this.saveKey, content);
       this.lastSaveTime = Date.now();
       this.showSaveIndicator();
-      console.log("Content saved to localStorage");
+      //   console.log("Content saved to localStorage");
     } catch (error) {
       console.error("Could not save to localStorage:", error);
     }
