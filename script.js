@@ -339,6 +339,7 @@ class TextEditor {
       const savedContent = localStorage.getItem(this.saveKey);
       if (savedContent && savedContent.trim() !== "") {
         this.editor.innerHTML = savedContent;
+        this.updateWordCount();
         // console.log("Content loaded from localStorage");
       }
     } catch (error) {
