@@ -381,6 +381,7 @@ class TextEditor {
     try {
       const content = this.editor.innerHTML;
       localStorage.setItem(this.saveKey, content);
+      this.lastSaveTime = Date.now();
       this.showSaveIndicator();
       console.log("Content saved to localStorage");
     } catch (error) {
