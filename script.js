@@ -281,8 +281,10 @@ class TextEditor {
 
   updateWordCount() {
     const text = this.editor.innerText || this.editor.textContent || "";
-    const words = text.trim() === "" ? 0 : text.trim().split(/\s+/).length;
-    const characters = text.length;
+    const cleanText = text.replace(/\s+/g, " ").trim();
+
+    const words = cleanText === "" ? 0 : cleanText.split(/\s+/).length;
+    const characters = cleanText.length;
 
     this.wordCount.textContent = `Words: ${words} | Characters: ${characters}`;
   }
