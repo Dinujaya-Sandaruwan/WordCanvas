@@ -59,6 +59,16 @@ body {
   box-shadow: 0 0 12px rgba(73, 80, 87, 0.15);
 }
 
+.editor u,
+.editor [style*="text-decoration"],
+.editor [style*="underline"] {
+  text-decoration-color: currentColor;
+}
+
+.editor span[style*="color"] {
+  text-decoration-color: inherit;
+}
+
 .editor-container {
   padding: 30px;
   background: white;
